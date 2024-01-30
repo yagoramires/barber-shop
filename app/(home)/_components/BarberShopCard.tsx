@@ -15,7 +15,7 @@ export default function BarberShopCard({ barbershop }: BarberShopCardProps) {
     <Card className="min-w-[167px] max-w-[167px] rounded-2xl">
       <CardContent className="p-0">
         <div className="relative p-1 pb-2">
-          <div className="absolute left-3 top-3 z-10">
+          <div className="absolute left-2 top-2 z-10">
             <Badge
               variant={"secondary"}
               className="flex items-center gap-1 opacity-90"
@@ -34,13 +34,16 @@ export default function BarberShopCard({ barbershop }: BarberShopCardProps) {
           />
         </div>
         <div className="px-3 pb-3">
-          <h2 className="overflow-hidden text-ellipsis text-nowrap font-bold">
+          <h2 className="mb-1 overflow-hidden text-ellipsis text-nowrap font-bold">
             {barbershop.name}
           </h2>
           <p className="overflow-hidden text-ellipsis text-nowrap text-sm text-gray-400">
             {barbershop.address}
           </p>
-          <Button className="w-full" variant={"outline"}>
+          <Button
+            className="mt-3 w-full rounded-[8px] bg-[#26272B]"
+            variant={"outline"}
+          >
             Reservar
           </Button>
         </div>
