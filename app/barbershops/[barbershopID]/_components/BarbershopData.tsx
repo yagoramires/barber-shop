@@ -16,7 +16,7 @@ export default function BarbershopData({ barbershop }: BarbershopDataProps) {
   const router = useRouter();
 
   const handleClickBackButton = () => {
-    router.back();
+    router.replace("/");
   };
 
   return (
