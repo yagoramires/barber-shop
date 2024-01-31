@@ -44,8 +44,8 @@ export default function BarbershopData({ barbershop }: BarbershopDataProps) {
         />
       </div>
       <div className="border-b border-secondary  px-5 pb-6 pt-3">
-        <h1 className="text-xl font-bold">{barbershop.name}</h1>
-        <p className="flex items-center gap-2 text-sm">
+        <h1 className="mb-3 text-xl font-bold">{barbershop.name}</h1>
+        <p className="mb-2 flex items-center gap-2 text-sm">
           <MapPinIcon className="text-primary" size={18} />
           {barbershop.address}
         </p>
