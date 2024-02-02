@@ -1,7 +1,7 @@
 "use client";
-import { useMemo, useState } from "react";
-import { signIn, useSession } from "next-auth/react";
-import { Barbershop, Service, User } from "@prisma/client";
+import { useEffect, useMemo, useState } from "react";
+import { signIn } from "next-auth/react";
+import { Barbershop, Booking, Service } from "@prisma/client";
 import { ptBR } from "date-fns/locale";
 import Image from "next/image";
 
@@ -23,6 +23,7 @@ import saveBooking from "../_actions/save-booking";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import getDayBookings from "../_actions/get-bookings";
 
 interface ServiceCardProps {
   service: Service;
@@ -44,6 +45,8 @@ export default function ServiceCard({
 
   const [submitIsLoading, setSubmitIsLoading] = useState(false);
   const [sheetIsOpen, setSheetIsOpen] = useState(false);
+
+  const [dayBookings, setDayBookings] = useState<Booking[]>([]);
 
   const handleBookingClick = () => {
     if (!isAuthenticated) {
@@ -99,7 +102,35 @@ export default function ServiceCard({
   };
 
   const timeList = useMemo(() => {
-    return date ? generateDayByTimeList(date) : [];
+    if (!date) return [];
+
+    return generateDayByTimeList(date).filter((time) => {
+      const _hour = Number(time.split(":")[0]);
+      const _minutes = Number(time.split(":")[1]);
+
+      const booking = dayBookings.find((booking) => {
+        const bookingHour = booking.date.getHours();
+        const bookingMinutes = booking.date.getMinutes();
+
+        return bookingHour === _hour && bookingMinutes === _minutes;
+      });
+
+      if (!booking) {
+        return true;
+      }
+
+      return false;
+    });
+  }, [date, dayBookings]);
+
+  useEffect(() => {
+    if (!date) return;
+
+    (async () => {
+      const _dayBookings = await getDayBookings(date);
+
+      setDayBookings(_dayBookings);
+    })();
   }, [date]);
 
   return (
