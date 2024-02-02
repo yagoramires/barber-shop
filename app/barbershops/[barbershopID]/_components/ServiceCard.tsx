@@ -127,11 +127,11 @@ export default function ServiceCard({
     if (!date) return;
 
     (async () => {
-      const _dayBookings = await getDayBookings(date);
+      const _dayBookings = await getDayBookings(barbershop.id, date);
 
       setDayBookings(_dayBookings);
     })();
-  }, [date]);
+  }, [date, barbershop.id]);
 
   return (
     <Card>
