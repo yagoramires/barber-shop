@@ -44,6 +44,7 @@ export default async function BarbershopDetailsPage({
         {barbershop.services.map((service: Service) => (
           <ServiceCard
             service={service}
+            barbershop={barbershop}
             key={service.id}
             isAuthenticated={!!session?.user}
           />

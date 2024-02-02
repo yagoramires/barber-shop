@@ -20,6 +20,8 @@ export default function SideMenu() {
   const handleLoginClick = () => signIn("google");
   const handleLogoutClick = () => signOut();
 
+  console.log(data);
+
   return (
     <SheetContent className="p-0">
       <SheetHeader className="border-b border-solid border-secondary p-5 text-left">
@@ -31,7 +33,7 @@ export default function SideMenu() {
           <div className="flex items-center gap-3">
             <Avatar>
               <AvatarImage src={data.user.image ?? ""} />
-              <AvatarFallback>{data.user.name}</AvatarFallback>
+              <AvatarFallback>{data.user.name?.charAt(0)}</AvatarFallback>
             </Avatar>
 
             <h2>{data.user.name}</h2>
