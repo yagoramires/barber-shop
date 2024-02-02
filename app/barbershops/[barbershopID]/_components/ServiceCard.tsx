@@ -1,7 +1,7 @@
 "use client";
 import { useMemo, useState } from "react";
 import { signIn, useSession } from "next-auth/react";
-import { Barbershop, Service } from "@prisma/client";
+import { Barbershop, Service, User } from "@prisma/client";
 import { ptBR } from "date-fns/locale";
 import Image from "next/image";
 
@@ -21,24 +21,29 @@ import formatPrice from "../_helpers/format-price";
 import { format, setHours, setMinutes } from "date-fns";
 import saveBooking from "../_actions/save-booking";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface ServiceCardProps {
   service: Service;
   isAuthenticated: boolean;
   barbershop: Barbershop;
+  userId: string;
 }
 
 export default function ServiceCard({
   service,
   isAuthenticated,
   barbershop,
+  userId,
 }: ServiceCardProps) {
-  const { data } = useSession();
+  const router = useRouter();
 
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [hour, setHour] = useState<string | undefined>(undefined);
 
   const [submitIsLoading, setSubmitIsLoading] = useState(false);
+  const [sheetIsOpen, setSheetIsOpen] = useState(false);
 
   const handleBookingClick = () => {
     if (!isAuthenticated) {
@@ -58,7 +63,7 @@ export default function ServiceCard({
   const handleBookingSubmit = async () => {
     setSubmitIsLoading(true);
     try {
-      if (!hour || !date || !data?.user) return;
+      if (!hour || !date || !userId) return;
 
       const _hour = Number(hour.split(":")[0]);
       const _minutes = Number(hour.split(":")[1]);
@@ -68,12 +73,24 @@ export default function ServiceCard({
       await saveBooking({
         serviceId: service.id,
         barbershopId: barbershop.id,
-        userId: (data.user as any).id,
+        userId,
         date: fullDate,
       });
 
+      setSheetIsOpen(false);
+
       setDate(undefined);
       setHour(undefined);
+
+      toast("Reserva realizada com sucesso", {
+        description: format(fullDate, "'Para' dd 'de' MMMM 'às' HH':'mm'.'", {
+          locale: ptBR,
+        }),
+        action: {
+          label: "Visualizar",
+          onClick: () => router.push("/bookings"),
+        },
+      });
     } catch (error) {
       console.log(error);
     } finally {
@@ -106,7 +123,7 @@ export default function ServiceCard({
                 {formatPrice(service.price)}
               </p>
 
-              <Sheet>
+              <Sheet onOpenChange={setSheetIsOpen} open={sheetIsOpen}>
                 <SheetTrigger asChild>
                   <Button variant={"secondary"} onClick={handleBookingClick}>
                     Reservar

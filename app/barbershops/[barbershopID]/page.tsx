@@ -19,6 +19,7 @@ export default async function BarbershopDetailsPage({
   }
 
   const session = await getServerSession(authOptions);
+  console.log(session);
 
   const barbershop = await db.barbershop.findUnique({
     where: {
@@ -47,6 +48,7 @@ export default async function BarbershopDetailsPage({
             barbershop={barbershop}
             key={service.id}
             isAuthenticated={!!session?.user}
+            userId={(session?.user as any).id}
           />
         ))}
       </ul>
