@@ -20,8 +20,6 @@ export default function SideMenu() {
   const handleLoginClick = () => signIn("google");
   const handleLogoutClick = () => signOut();
 
-  console.log(data);
-
   return (
     <SheetContent className="p-0">
       <SheetHeader className="border-b border-solid border-secondary p-5 text-left">
