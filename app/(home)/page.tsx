@@ -7,6 +7,7 @@ import Header from "../_components/Header";
 import SearchBar from "./_components/SearchBar";
 import Booking from "../_components/BookingCard";
 import BarberShopCard from "./_components/BarberShopCard";
+import { Barbershop } from "@prisma/client";
 
 export default async function Home() {
   const barbershops = await db.barbershop.findMany({});
@@ -30,7 +31,7 @@ export default async function Home() {
         <h2 className="mb-3 text-sm font-bold uppercase text-gray-400">
           Agendamentos
         </h2>
-        <Booking />
+        {/* <Booking /> */}
       </div>
 
       <div className="mt-6 pl-5">
@@ -39,7 +40,7 @@ export default async function Home() {
         </h2>
 
         <ul className="flex gap-4 overflow-x-auto pr-5 [&::-webkit-scrollbar]:hidden">
-          {barbershops?.map((barbershop) => (
+          {barbershops?.map((barbershop: Barbershop) => (
             <BarberShopCard key={barbershop.id} barbershop={barbershop} />
           ))}
         </ul>
@@ -51,7 +52,7 @@ export default async function Home() {
         </h2>
 
         <ul className="flex gap-4 overflow-x-auto pr-5 [&::-webkit-scrollbar]:hidden">
-          {barbershops?.map((barbershop) => (
+          {barbershops?.map((barbershop: Barbershop) => (
             <BarberShopCard key={barbershop.id} barbershop={barbershop} />
           ))}
         </ul>

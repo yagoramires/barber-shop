@@ -48,7 +48,7 @@ export default async function BarbershopDetailsPage({
             barbershop={barbershop}
             key={service.id}
             isAuthenticated={!!session?.user}
-            userId={(session?.user as any).id}
+            userId={(session?.user as any)?.id}
           />
         ))}
       </ul>
