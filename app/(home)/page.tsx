@@ -47,17 +47,19 @@ export default async function Home() {
         <SearchBar />
       </div>
 
-      <div className="mt-6 pl-5">
-        <h2 className="mb-3 text-sm font-bold uppercase text-gray-400">
-          Agendamentos
-        </h2>
+      {confirmedBookings.length > 0 && (
+        <div className="mt-6 pl-5">
+          <h2 className="mb-3 text-sm font-bold uppercase text-gray-400">
+            Agendamentos
+          </h2>
 
-        <div className=" mt-6 flex gap-3 overflow-x-auto pr-5 [&::-webkit-scrollbar]:hidden">
-          {confirmedBookings.map((booking: IBooking) => (
-            <BookingCard key={booking.id} booking={booking} />
-          ))}
+          <div className=" mt-6 flex gap-3 overflow-x-auto pr-5 [&::-webkit-scrollbar]:hidden">
+            {confirmedBookings.map((booking: IBooking) => (
+              <BookingCard key={booking.id} booking={booking} />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="mt-6 pl-5">
         <h2 className="mb-3 text-sm  font-bold uppercase text-gray-400">

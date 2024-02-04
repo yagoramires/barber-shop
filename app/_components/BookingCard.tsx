@@ -21,6 +21,17 @@ import { cancelBooking } from "../_actions/cancelBooking";
 import { toast } from "sonner";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "./ui/alert-dialog";
 
 interface BookingItemProps {
   booking: Prisma.BookingGetPayload<{
@@ -150,19 +161,38 @@ export default function BookingCard({ booking }: BookingItemProps) {
               Voltar
             </Button>
           </SheetClose>
-          {!status && (
-            <Button
-              className="w-full"
-              variant="destructive"
-              onClick={handleCancelBooking}
-              disabled={isDeleteLoading}
-            >
-              {isDeleteLoading && (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              {!status && (
+                <Button className="w-full" variant="destructive">
+                  Cancelar Reserva
+                </Button>
               )}
-              Cancelar Reserva
-            </Button>
-          )}
+            </AlertDialogTrigger>
+            <AlertDialogContent className="min-w-[90%] max-w-[90%] rounded-xl">
+              <AlertDialogHeader>
+                <AlertDialogTitle>Cancelar Reserva</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Tem certeza que deseja cancelar esse agendamento?
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter className="flex-row items-center gap-3">
+                <AlertDialogCancel className="mt-0 w-full">
+                  Voltar
+                </AlertDialogCancel>
+                <AlertDialogAction
+                  className="w-full"
+                  onClick={handleCancelBooking}
+                  disabled={isDeleteLoading}
+                >
+                  {isDeleteLoading && (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  )}
+                  Confirmar cancelamento
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </SheetFooter>
       </SheetContent>
     </Sheet>
