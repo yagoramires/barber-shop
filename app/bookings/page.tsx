@@ -1,12 +1,10 @@
 import { db } from "../_lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
-import { signIn } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { Booking } from "@prisma/client";
 import Header from "../_components/Header";
 import BookingCard from "@/app/_components/BookingCard";
-import { isFuture, isPast } from "date-fns";
 
 export default async function BookingsPage() {
   const session = await getServerSession(authOptions);
@@ -16,22 +14,32 @@ export default async function BookingsPage() {
     // return signIn("google");
   }
 
-  const bookings = await db.booking.findMany({
-    where: {
-      userId: (session.user as any)?.id,
-    },
-    include: {
-      service: true,
-      barbershop: true,
-    },
-  });
-
-  const confirmedBookings = bookings.filter((booking: Booking) =>
-    isFuture(booking.date),
-  );
-  const finishedBookings = bookings.filter((booking: Booking) =>
-    isPast(booking.date),
-  );
+  const [confirmedBookings, finishedBookings] = await Promise.all([
+    db.booking.findMany({
+      where: {
+        userId: (session.user as any)?.id,
+        date: {
+          gte: new Date(),
+        },
+      },
+      include: {
+        service: true,
+        barbershop: true,
+      },
+    }),
+    await db.booking.findMany({
+      where: {
+        userId: (session.user as any)?.id,
+        date: {
+          lt: new Date(),
+        },
+      },
+      include: {
+        service: true,
+        barbershop: true,
+      },
+    }),
+  ]);
 
   return (
     <>

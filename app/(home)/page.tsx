@@ -1,16 +1,36 @@
 import { db } from "../_lib/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]/route";
+import { Barbershop, Booking as IBooking } from "@prisma/client";
 
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 import Header from "../_components/Header";
 import SearchBar from "./_components/SearchBar";
-import Booking from "../_components/BookingCard";
+import BookingCard from "../_components/BookingCard";
 import BarberShopCard from "./_components/BarberShopCard";
-import { Barbershop } from "@prisma/client";
 
 export default async function Home() {
-  const barbershops = await db.barbershop.findMany({});
+  const session = await getServerSession(authOptions);
+
+  const [barbershops, confirmedBookings] = await Promise.all([
+    db.barbershop.findMany({}),
+    session?.user
+      ? db.booking.findMany({
+          where: {
+            userId: (session.user as any)?.id,
+            date: {
+              gte: new Date(),
+            },
+          },
+          include: {
+            service: true,
+            barbershop: true,
+          },
+        })
+      : Promise.resolve([]),
+  ]);
 
   return (
     <main>
@@ -27,11 +47,16 @@ export default async function Home() {
         <SearchBar />
       </div>
 
-      <div className="mt-6 px-5">
+      <div className="mt-6 pl-5">
         <h2 className="mb-3 text-sm font-bold uppercase text-gray-400">
           Agendamentos
         </h2>
-        {/* <Booking /> */}
+
+        <div className=" mt-6 flex gap-3 overflow-x-auto pr-5 [&::-webkit-scrollbar]:hidden">
+          {confirmedBookings.map((booking: IBooking) => (
+            <BookingCard key={booking.id} booking={booking} />
+          ))}
+        </div>
       </div>
 
       <div className="mt-6 pl-5">

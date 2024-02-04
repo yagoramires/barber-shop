@@ -1,4 +1,4 @@
-import { Booking, Prisma, Service } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Badge } from "./ui/badge";
 import { Card, CardContent } from "./ui/card";
@@ -18,7 +18,7 @@ export default function BookingCard({ booking }: BookingItemProps) {
   const status = isPast(booking.date);
 
   return (
-    <Card>
+    <Card className="min-w-[90%]">
       <CardContent className="flex p-0 ">
         <div className="flex flex-[3] flex-col gap-[10px] p-5">
           <Badge
