@@ -24,6 +24,7 @@ import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import getDayBookings from "../_actions/get-bookings";
+import ServiceDetails from "@/app/_components/ServiceDetails";
 
 interface ServiceCardProps {
   service: Service;
@@ -215,7 +216,7 @@ export default function ServiceCard({
                   )}
 
                   <div className="border-t border-solid border-secondary px-5 py-6">
-                    <Card>
+                    {/* <Card>
                       <CardContent className="flex flex-col gap-3 p-3">
                         <div className="flex items-center justify-between">
                           <h2 className="font-bold">{service.name}</h2>
@@ -247,7 +248,13 @@ export default function ServiceCard({
                           <h5 className="text-sm ">{barbershop.name}</h5>
                         </div>
                       </CardContent>
-                    </Card>
+                    </Card> */}
+                    <ServiceDetails
+                      barbershop={barbershop}
+                      service={service}
+                      date={date}
+                      hour={hour}
+                    />
                   </div>
 
                   <SheetFooter className="px-5">
