@@ -18,7 +18,7 @@ import {
 } from "@/app/_components/ui/sheet";
 import generateDayByTimeList from "../_helpers/hours";
 import formatPrice from "../_helpers/format-price";
-import { format, setHours, setMinutes } from "date-fns";
+import { addDays, format, setHours, setMinutes } from "date-fns";
 import saveBooking from "../_actions/save-booking";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
@@ -198,7 +198,7 @@ export default function ServiceCard({
                     />
                   </div>
 
-                  {date && (
+                  {date && timeList.length > 0 ? (
                     <div className="flex items-center gap-4 overflow-x-auto border-t border-solid border-secondary px-5 py-6 [&::-webkit-scrollbar]:hidden">
                       {timeList.map((time) => (
                         <Button
@@ -212,6 +212,10 @@ export default function ServiceCard({
                           {time}
                         </Button>
                       ))}
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-4 overflow-x-auto border-t border-solid border-secondary px-5 py-6 [&::-webkit-scrollbar]:hidden">
+                      Horários esgotados, por favor selecione outro dia.
                     </div>
                   )}
 
