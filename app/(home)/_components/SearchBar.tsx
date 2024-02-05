@@ -3,16 +3,71 @@ import { Button } from "@/app/_components/ui/button";
 import { Input } from "@/app/_components/ui/input";
 import { SearchIcon } from "lucide-react";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/app/_components/ui/form";
+import { useRouter } from "next/navigation";
+
+const formSchema = z.object({
+  search: z
+    .string({ required_error: "Campo obrigatório" })
+    .trim()
+    .min(1, "Campo obrigatório"),
+});
+
 export default function SearchBar() {
+  const router = useRouter();
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      search: "",
+    },
+  });
+
+  const handleSubmit = (data: z.infer<typeof formSchema>) => {
+    router.push("/barbershops?search=" + data.search);
+  };
+
   return (
-    <div className="flex items-center gap-2">
-      <Input
-        className="focus-visible:ring-transparent"
-        placeholder="Encontre seu barbeiro"
-      />
-      <Button size="icon" variant="default" className="p-[10px]">
-        <SearchIcon size={18} />
-      </Button>
-    </div>
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(handleSubmit)}
+        className="flex w-full items-start gap-2"
+      >
+        <FormField
+          control={form.control}
+          name="search"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormControl>
+                <Input
+                  className="focus-visible:ring-transparent"
+                  placeholder="Encontre seu barbeiro"
+                  {...field}
+                />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button
+          size="icon"
+          variant="default"
+          className="p-[10px]"
+          type="submit"
+        >
+          <SearchIcon size={18} />
+        </Button>
+      </form>
+    </Form>
   );
 }

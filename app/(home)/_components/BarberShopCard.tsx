@@ -20,7 +20,7 @@ export default function BarberShopCard({ barbershop }: BarberShopCardProps) {
   };
 
   return (
-    <Card className="min-w-[167px] max-w-[167px] rounded-2xl">
+    <Card className="w-full rounded-2xl">
       <CardContent className="p-0">
         <div className="relative p-1 pb-2">
           <div className="absolute left-2 top-2 z-10">
