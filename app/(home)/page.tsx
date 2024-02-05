@@ -6,9 +6,9 @@ import { Barbershop, Booking as IBooking } from "@prisma/client";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
-import Header from "../_components/Header";
+import Header from "@/app/_components/Header";
 import SearchBar from "./_components/SearchBar";
-import BookingCard from "../_components/BookingCard";
+import BookingCard from "@/app/_components/BookingCard";
 import BarberShopCard from "./_components/BarberShopCard";
 
 export default async function Home() {

@@ -1,10 +1,10 @@
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
-import { db } from "../_lib/prisma";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+import { db } from "@/app/_lib/prisma";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { Booking } from "@prisma/client";
 
-import Header from "../_components/Header";
+import Header from "@/app/_components/Header";
 import BookingCard from "@/app/_components/BookingCard";
 
 export default async function BookingsPage() {
