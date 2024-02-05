@@ -32,7 +32,7 @@ export default async function BarbershopsPage({
       <Header />
 
       <div className="flex flex-col gap-6 px-5 py-6">
-        <SearchBar />
+        <SearchBar defaultValues={{ search: searchParams.search }} />
 
         <h1 className="text-xs font-bold uppercase text-gray-400">
           Resultados para &quot;{searchParams.search}&quot;
