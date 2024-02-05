@@ -4,7 +4,7 @@ import ServiceCard from "./_components/ServiceCard";
 import { Service } from "@prisma/client";
 import { Button } from "@/app/_components/ui/button";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/_lib/auth";
 
 interface BarbershopDetailsPageProps {
   params: { barbershopID?: string };
@@ -19,7 +19,6 @@ export default async function BarbershopDetailsPage({
   }
 
   const session = await getServerSession(authOptions);
-  console.log(session);
 
   const barbershop = await db.barbershop.findUnique({
     where: {

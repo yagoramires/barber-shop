@@ -1,6 +1,5 @@
 import { db } from "../_lib/prisma";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
 import { Barbershop, Booking as IBooking } from "@prisma/client";
 
 import { format } from "date-fns";
@@ -10,6 +9,7 @@ import Header from "@/app/_components/Header";
 import SearchBar from "./_components/SearchBar";
 import BookingCard from "@/app/_components/BookingCard";
 import BarberShopCard from "./_components/BarberShopCard";
+import { authOptions } from "../_lib/auth";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
