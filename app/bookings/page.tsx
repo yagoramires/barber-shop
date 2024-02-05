@@ -5,7 +5,7 @@ import { db } from "@/app/_lib/prisma";
 import { Booking } from "@prisma/client";
 
 import BookingCard from "@/app/_components/BookingCard";
-import Header from "../_components/Header";
+import Header from "../_components/header";
 
 export default async function BookingsPage() {
   const session = await getServerSession(authOptions);
